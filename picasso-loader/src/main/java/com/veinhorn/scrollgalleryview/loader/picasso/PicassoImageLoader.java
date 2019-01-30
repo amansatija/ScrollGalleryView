@@ -2,10 +2,13 @@ package com.veinhorn.scrollgalleryview.loader.picasso;
 
 import android.content.Context;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.veinhorn.scrollgalleryview.loader.MediaLoader;
+
+import java.io.File;
 
 /**
  * Created by veinhorn on 2/4/18.
@@ -15,9 +18,14 @@ public class PicassoImageLoader implements MediaLoader {
     private String url;
     private Integer thumbnailWidth;
     private Integer thumbnailHeight;
-
+    private boolean isFile = false;
     public PicassoImageLoader(String url) {
         this.url = url;
+    }
+
+    public PicassoImageLoader(String url,boolean isFile) {
+        this.url = url;
+        this.isFile = isFile;
     }
 
     public PicassoImageLoader(String url, Integer thumbnailWidth, Integer thumbnailHeight) {
@@ -33,10 +41,23 @@ public class PicassoImageLoader implements MediaLoader {
 
     @Override
     public void loadMedia(Context context, final ImageView imageView, final MediaLoader.SuccessCallback callback) {
-        Picasso.with(context)
-                .load(url)
-                .placeholder(R.drawable.placeholder_image)
-                .into(imageView, new ImageCallback(callback));
+        if(isFile){
+            File file = new File(url);
+            if(file.exists()){
+                Picasso.with(context)
+                        .load(file)
+                        .placeholder(R.drawable.placeholder_image)
+                        .into(imageView, new ImageCallback(callback));
+            }else{
+                Toast.makeText(context,"Failed to load image. File not found." ,Toast.LENGTH_SHORT ).show();
+            }
+        }else{
+            Picasso.with(context)
+                    .load(url)
+                    .placeholder(R.drawable.placeholder_image)
+                    .into(imageView, new ImageCallback(callback));
+        }
+
     }
 
     @Override

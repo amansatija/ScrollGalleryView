@@ -10,6 +10,10 @@ public class DSL {
         return mediaHelper.image(url);
     }
 
+    public static MediaInfo image(String url,boolean isFile) {
+        return mediaHelper.image(url,isFile);
+    }
+
     public static MediaInfo video(String url, int placeholderViewId) {
         return mediaHelper.video(url, placeholderViewId);
     }

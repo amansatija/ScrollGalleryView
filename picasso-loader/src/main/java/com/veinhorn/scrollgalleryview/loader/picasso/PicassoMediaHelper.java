@@ -8,4 +8,9 @@ public class PicassoMediaHelper extends BasicMediaHelper {
     public MediaInfo image(String url) {
         return MediaInfo.mediaLoader(new PicassoImageLoader(url));
     }
+
+
+    public MediaInfo image(String url,boolean isFile) {
+        return MediaInfo.mediaLoader(new PicassoImageLoader(url,isFile));
+    }
 }
