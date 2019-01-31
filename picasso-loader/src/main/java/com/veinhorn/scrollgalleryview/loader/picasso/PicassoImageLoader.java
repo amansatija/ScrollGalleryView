@@ -1,6 +1,7 @@
 package com.veinhorn.scrollgalleryview.loader.picasso;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -49,7 +50,8 @@ public class PicassoImageLoader implements MediaLoader {
                         .placeholder(R.drawable.placeholder_image)
                         .into(imageView, new ImageCallback(callback));
             }else{
-                Toast.makeText(context,"Failed to load image. File not found." ,Toast.LENGTH_SHORT ).show();
+                Log.d("PicassoImageLoader","Failed to load Image. File not found. URL =="+
+                        url+" and isFile=="+isFile);
             }
         }else{
             Picasso.with(context)
@@ -62,13 +64,30 @@ public class PicassoImageLoader implements MediaLoader {
 
     @Override
     public void loadThumbnail(Context context, final ImageView thumbnailView, final MediaLoader.SuccessCallback callback) {
-        Picasso.with(context)
-                .load(url)
-                .resize(thumbnailWidth == null ? 100 : thumbnailWidth,
-                        thumbnailHeight == null ? 100 : thumbnailHeight)
-                .placeholder(R.drawable.placeholder_image)
-                .centerInside()
-                .into(thumbnailView, new ImageCallback(callback));
+        if(isFile){
+            File file = new File(url);
+            if(file.exists()){
+                Picasso.with(context)
+                        .load(file)
+                        .resize(thumbnailWidth == null ? 100 : thumbnailWidth,
+                                thumbnailHeight == null ? 100 : thumbnailHeight)
+                        .placeholder(R.drawable.placeholder_image)
+                        .centerInside()
+                        .into(thumbnailView, new ImageCallback(callback));
+            }else{
+                Log.d("PicassoImageLoader","Failed to load Thumbnail. File not found. URL =="+
+                        url+" and isFile=="+isFile);
+            }
+        }else{
+            Picasso.with(context)
+                    .load(url)
+                    .resize(thumbnailWidth == null ? 100 : thumbnailWidth,
+                            thumbnailHeight == null ? 100 : thumbnailHeight)
+                    .placeholder(R.drawable.placeholder_image)
+                    .centerInside()
+                    .into(thumbnailView, new ImageCallback(callback));
+        }
+
     }
 
     private static class ImageCallback implements Callback {
