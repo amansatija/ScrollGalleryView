@@ -33,23 +33,27 @@ public class ImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.image_fragment, container, false);
-        photoView = rootView.findViewById(R.id.photoView);
-        if (onImageClickListener != null) {
-            photoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onImageClickListener.onClick();
-                }
-            });
-        }
-        viewPager = (HackyViewPager) getActivity().findViewById(R.id.viewPager);
+        try {
+            photoView = rootView.findViewById(R.id.photoView);
+            if (onImageClickListener != null) {
+                photoView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        onImageClickListener.onClick();
+                    }
+                });
+            }
+            viewPager = (HackyViewPager) getActivity().findViewById(R.id.viewPager);
 
-        if (savedInstanceState != null) {
-            boolean isLocked = savedInstanceState.getBoolean(Constants.IS_LOCKED, false);
-            viewPager.setLocked(isLocked);
-        }
+            if (savedInstanceState != null) {
+                boolean isLocked = savedInstanceState.getBoolean(Constants.IS_LOCKED, false);
+                viewPager.setLocked(isLocked);
+            }
 
-        loadImageToView();
+            loadImageToView();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rootView;
     }
