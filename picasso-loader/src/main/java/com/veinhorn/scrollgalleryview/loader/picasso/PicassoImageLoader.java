@@ -45,7 +45,7 @@ public class PicassoImageLoader implements MediaLoader {
         if(isFile){
             File file = new File(url);
             if(file.exists()){
-                Picasso.with(context)
+                Picasso.get()
                         .load(file)
                         .placeholder(R.drawable.placeholder_image)
                         .into(imageView, new ImageCallback(callback));
@@ -54,7 +54,7 @@ public class PicassoImageLoader implements MediaLoader {
                         url+" and isFile=="+isFile);
             }
         }else{
-            Picasso.with(context)
+            Picasso.get()
                     .load(url)
                     .placeholder(R.drawable.placeholder_image)
                     .into(imageView, new ImageCallback(callback));
