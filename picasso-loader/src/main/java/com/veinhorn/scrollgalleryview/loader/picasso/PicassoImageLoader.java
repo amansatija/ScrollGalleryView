@@ -67,7 +67,7 @@ public class PicassoImageLoader implements MediaLoader {
         if(isFile){
             File file = new File(url);
             if(file.exists()){
-                Picasso.with(context)
+                Picasso.get()
                         .load(file)
                         .resize(thumbnailWidth == null ? 100 : thumbnailWidth,
                                 thumbnailHeight == null ? 100 : thumbnailHeight)
@@ -79,7 +79,7 @@ public class PicassoImageLoader implements MediaLoader {
                         url+" and isFile=="+isFile);
             }
         }else{
-            Picasso.with(context)
+            Picasso.get()
                     .load(url)
                     .resize(thumbnailWidth == null ? 100 : thumbnailWidth,
                             thumbnailHeight == null ? 100 : thumbnailHeight)
@@ -103,7 +103,7 @@ public class PicassoImageLoader implements MediaLoader {
         }
 
         @Override
-        public void onError() {
+        public void onError(Exception e) {
 
         }
     }
